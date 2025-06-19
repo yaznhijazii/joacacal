@@ -1,0 +1,51 @@
+body {
+  font-family: 'Cairo', sans-serif;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 0 10px;
+  text-align: right;
+  direction: rtl;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+}
+
+select, input[type=number] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  font-size: 1rem;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 15px;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.result {
+  margin-top: 25px;
+  background: #f0f0f0;
+  padding: 15px;
+  border-radius: 8px;
+  display: none;
+}
+
+.error {
+  color: red;
+  margin-top: 15px;
+  font-weight: bold;
+  display: none;
+  /* يظهر فقط عند وجود خطأ */
+}
+
+.subject-block {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 6px;
+}
