@@ -160,9 +160,9 @@
       });
 
       let discount = 0;
-      if (numSubjects === 2) discount = 0.20;
-      else if (numSubjects === 3 || numSubjects === 4) discount = 0.20; // عدلتها من 30% إلى 20%
-
+      if (numSubjects === 2 || numSubjects === 3) discount = 0.20;
+      else if (numSubjects === 4) discount = 0.30;
+      
       const final_price = total_price * (1 - discount);
 
       outputDiv.innerHTML = `
