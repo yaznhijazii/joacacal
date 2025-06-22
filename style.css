@@ -1,51 +1,98 @@
 body {
+  margin: 0;
   font-family: 'Cairo', sans-serif;
+  background: linear-gradient(135deg, #a2d4f4, #ffffff);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-container {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
   max-width: 600px;
-  margin: 40px auto;
-  padding: 0 10px;
-  text-align: right;
-  direction: rtl;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-label {
-  font-weight: bold;
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 26px;
+  color: #222;
+}
+
+.input-block label,
+.subject-block label {
+  margin-bottom: 8px;
   display: block;
-  margin-top: 10px;
-}
-
-select, input[type=number] {
-  width: 100%;
-  padding: 8px;
-  margin-top: 4px;
-  font-size: 1rem;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px 15px;
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-
-.result {
-  margin-top: 25px;
-  background: #f0f0f0;
-  padding: 15px;
-  border-radius: 8px;
-  display: none;
-}
-
-.error {
-  color: red;
-  margin-top: 15px;
   font-weight: bold;
-  display: none;
-  /* يظهر فقط عند وجود خطأ */
+  color: #333;
+}
+
+input[type="number"],
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  font-size: 16px;
+  transition: border 0.3s ease;
+}
+
+input[type="number"]:focus,
+select:focus {
+  border-color: #2a9d8f;
+  outline: none;
 }
 
 .subject-block {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-top: 15px;
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.subject-block:hover {
+  transform: translateY(-3px);
+}
+
+.calc-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  background-color: #2a9d8f;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.calc-btn:hover {
+  background-color: #21867a;
+}
+
+.result-card, .error-card {
+  margin-top: 25px;
+  padding: 20px;
+  border-radius: 15px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.result-card {
+  background-color: #d4f4e2;
+  color: #207744;
+}
+
+.error-card {
+  background-color: #ffe5e5;
+  color: #a90000;
 }

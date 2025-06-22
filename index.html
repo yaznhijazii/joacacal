@@ -2,179 +2,28 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>حاسبة أسعار التوجيهي</title>
+  <title>🎓 حاسبة أسعار التوجيهي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      font-family: 'Cairo', sans-serif;
-      margin: 30px;
-      background-color: #f9f9f9;
-      color: #333;
-    }
-    label, select, input {
-      display: block;
-      margin: 10px 0 5px;
-    }
-    input, select, button {
-      padding: 8px;
-      width: 100%;
-      max-width: 300px;
-      font-size: 16px;
-    }
-    .subject-block {
-      margin-bottom: 20px;
-      background-color: #fff;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-    .result, .error {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 10px;
-      font-weight: bold;
-    }
-    .result {
-      background-color: #e6ffe6;
-      color: #1c7c1c;
-    }
-    .error {
-      background-color: #ffe6e6;
-      color: #d10000;
-    }
-  </style>
 </head>
 <body>
+  <div class="app-container">
+    <h1>🎓 حاسبة أسعار مواد التوجيهي</h1>
 
-  <h1>🎓 حاسبة أسعار مواد التوجيهي</h1>
+    <div class="input-block">
+      <label for="numSubjects">🔢 كم عدد المواد التي تريد اختيارها؟</label>
+      <input type="number" id="numSubjects" min="1" max="4" value="1" placeholder="من 1 إلى 4 مواد" />
+    </div>
 
-  <label for="numSubjects">🔢 كم عدد المواد التي تريد اختيارها؟</label>
-  <input type="number" id="numSubjects" min="1" max="4" value="1" placeholder="من 1 إلى 4 مواد" />
+    <form id="subjectsForm">
+      <div id="subjectsContainer"></div>
+      <button type="submit" class="calc-btn">💰 احسب السعر</button>
+    </form>
 
-  <form id="subjectsForm">
-    <div id="subjectsContainer"></div>
+    <div id="output" class="result-card" style="display: none;"></div>
+    <div id="error" class="error-card" style="display: none;"></div>
+  </div>
 
-    <button type="submit">💰 احسب السعر</button>
-  </form>
-
-  <div id="output" class="result" style="display:none;"></div>
-  <div id="error" class="error" style="display:none;"></div>
-
-  <script>
-    const prices = {
-      "المسجل": {"ثقافات": 30, "أساسية": 50},
-      "التفاعلي": {"ثقافات": 40, "أساسية": 60},
-      "المباشر": {"ثقافات": 50, "أساسية": 70},
-    };
-
-    const subjectsContainer = document.getElementById('subjectsContainer');
-    const numSubjectsInput = document.getElementById('numSubjects');
-    const form = document.getElementById('subjectsForm');
-    const outputDiv = document.getElementById('output');
-    const errorDiv = document.getElementById('error');
-
-    function createSubjectInputs(index) {
-      const div = document.createElement('div');
-      div.className = 'subject-block';
-
-      const labelSystem = document.createElement('label');
-      labelSystem.textContent = `📚 نوع النظام للمادة رقم ${index + 1}:`;
-      const selectSystem = document.createElement('select');
-      selectSystem.name = `system_${index}`;
-      const optionDefaultSys = document.createElement('option');
-      optionDefaultSys.textContent = '-- اختر النظام --';
-      optionDefaultSys.value = '';
-      selectSystem.appendChild(optionDefaultSys);
-      ["المسجل", "التفاعلي", "المباشر"].forEach(sys => {
-        const opt = document.createElement('option');
-        opt.value = sys;
-        opt.textContent = sys;
-        selectSystem.appendChild(opt);
-      });
-
-      const labelType = document.createElement('label');
-      labelType.textContent = `📘 نوع المادة رقم ${index + 1}:`;
-      const selectType = document.createElement('select');
-      selectType.name = `type_${index}`;
-      const optionDefaultType = document.createElement('option');
-      optionDefaultType.textContent = '-- اختر النوع --';
-      optionDefaultType.value = '';
-      selectType.appendChild(optionDefaultType);
-      ["ثقافات", "أساسية"].forEach(type => {
-        const opt = document.createElement('option');
-        opt.value = type;
-        opt.textContent = type;
-        selectType.appendChild(opt);
-      });
-
-      div.appendChild(labelSystem);
-      div.appendChild(selectSystem);
-      div.appendChild(labelType);
-      div.appendChild(selectType);
-
-      return div;
-    }
-
-    function renderSubjects() {
-      subjectsContainer.innerHTML = '';
-      let n = parseInt(numSubjectsInput.value);
-      if (isNaN(n) || n < 1) n = 1;
-      if (n > 4) n = 4;
-      numSubjectsInput.value = n;
-      for (let i = 0; i < n; i++) {
-        subjectsContainer.appendChild(createSubjectInputs(i));
-      }
-      outputDiv.style.display = 'none';
-      errorDiv.style.display = 'none';
-    }
-
-    numSubjectsInput.addEventListener('input', renderSubjects);
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      errorDiv.textContent = '';
-      errorDiv.style.display = 'none';
-      outputDiv.style.display = 'none';
-
-      const formData = new FormData(form);
-      const subjects = [];
-
-      const numSubjects = parseInt(numSubjectsInput.value);
-
-      for (let i = 0; i < numSubjects; i++) {
-        const system = formData.get(`system_${i}`);
-        const type = formData.get(`type_${i}`);
-
-        if (!system || !type) {
-          errorDiv.textContent = `⚠️ الرجاء اختيار نوع النظام ونوع المادة للمادة رقم ${i + 1}`;
-          errorDiv.style.display = 'block';
-          return;
-        }
-
-        subjects.push({system, type});
-      }
-
-      let total_price = 0;
-      subjects.forEach(sub => {
-        total_price += prices[sub.system][sub.type];
-      });
-
-      let discount = 0;
-      if (numSubjects === 2 || numSubjects === 3) discount = 0.20;
-      else if (numSubjects === 4) discount = 0.30;
-      
-      const final_price = total_price * (1 - discount);
-
-      outputDiv.innerHTML = `
-        <p>💵 السعر قبل الخصم: <strong>${total_price} دينار</strong></p>
-        <p>🎁 نسبة الخصم: <strong>${discount * 100}%</strong></p>
-        <p>✅ السعر بعد الخصم: <strong>${final_price.toFixed(2)} دينار</strong></p>
-      `;
-      outputDiv.style.display = 'block';
-    });
-
-    renderSubjects();
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
