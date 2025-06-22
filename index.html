@@ -4,13 +4,52 @@
   <meta charset="UTF-8" />
   <title>حاسبة أسعار التوجيهي</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 30px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    label, select, input {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input, select, button {
+      padding: 8px;
+      width: 100%;
+      max-width: 300px;
+      font-size: 16px;
+    }
+    .subject-block {
+      margin-bottom: 20px;
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .result, .error {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    .result {
+      background-color: #e6ffe6;
+      color: #1c7c1c;
+    }
+    .error {
+      background-color: #ffe6e6;
+      color: #d10000;
+    }
+  </style>
 </head>
 <body>
 
   <h1>🎓 حاسبة أسعار مواد التوجيهي</h1>
 
   <label for="numSubjects">🔢 كم عدد المواد التي تريد اختيارها؟</label>
-  <input type="number" id="numSubjects" min="1" max="4" value="1" />
+  <input type="number" id="numSubjects" min="1" max="4" value="1" placeholder="من 1 إلى 4 مواد" />
 
   <form id="subjectsForm">
     <div id="subjectsContainer"></div>
@@ -18,8 +57,8 @@
     <button type="submit">💰 احسب السعر</button>
   </form>
 
-  <div id="output" class="result"></div>
-  <div id="error" class="error"></div>
+  <div id="output" class="result" style="display:none;"></div>
+  <div id="error" class="error" style="display:none;"></div>
 
   <script>
     const prices = {
@@ -81,6 +120,7 @@
       let n = parseInt(numSubjectsInput.value);
       if (isNaN(n) || n < 1) n = 1;
       if (n > 4) n = 4;
+      numSubjectsInput.value = n;
       for (let i = 0; i < n; i++) {
         subjectsContainer.appendChild(createSubjectInputs(i));
       }
@@ -88,7 +128,7 @@
       errorDiv.style.display = 'none';
     }
 
-    numSubjectsInput.addEventListener('change', renderSubjects);
+    numSubjectsInput.addEventListener('input', renderSubjects);
 
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -121,7 +161,7 @@
 
       let discount = 0;
       if (numSubjects === 2) discount = 0.20;
-      else if (numSubjects === 3 || numSubjects === 4) discount = 0.30;
+      else if (numSubjects === 3 || numSubjects === 4) discount = 0.20; // عدلتها من 30% إلى 20%
 
       const final_price = total_price * (1 - discount);
 
